@@ -9,8 +9,8 @@ object Parser extends JavaTokenParsers {
     l => l.foldRight(Ast.LNil():Ast.Ast) ((e, acc)=> Ast.LCons(e, acc))
   }
   lazy val lnil = "nil" ^^ {_ => Ast.LNil()}
-  lazy val lint = """\d""".r.+ ^^ {
-    l => Ast.LInt(l.foldLeft(0)((acc, n) => acc * 10 + n.toInt))}
+  lazy val lint = """\d+""".r ^^ {
+    n => Ast.LInt(n.toInt)}
   lazy val lsymbol = "[^ \n\t()'0-9]".r.+ ^^ {
     s => Ast.LSymbol(s.mkString)
   }
