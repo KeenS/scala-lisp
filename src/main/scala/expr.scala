@@ -20,8 +20,9 @@ object Expr {
     def apply() = "()"
   }
 
-  implicit def toStringCons[Car<:Expr, Cdr<:Expr] = new ToString[ConsCell[Car,Cdr]] {
-    def apply() = "( ${ToString[Car]} . ${ToString[Cdr]} )"
+  implicit def toStringCons[Car<:Expr, Cdr<:Expr](implicit toStringCar : ToString[Car],
+    toStringCdr : ToString[Cdr]) = new ToString[ConsCell[Car,Cdr]] {
+    def apply() = s"( ${ToString[Car]} . ${ToString[Cdr]} )"
   }
 
   // implicit def toString0 = new ToString[Zero] {
