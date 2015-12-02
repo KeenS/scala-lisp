@@ -16,12 +16,20 @@ object Expr {
   object ToString {
     def apply[E <: Expr](implicit toString :ToString[E]): String = toString()
   }
-  implicit val toStringNil = new ToString[Nil]{
+  implicit def toStringNil = new ToString[Nil]{
     def apply() = "()"
   }
 
-  implicit val toString0 = new ToString[Zero] {
-    def apply() = "0"
+  implicit def toStringCons[Car<:Expr, Cdr<:Expr] = new ToString[ConsCell[Car,Cdr]] {
+    def apply() = "( ${ToString[Car]} . ${ToString[Cdr]} )"
+  }
+
+  // implicit def toString0 = new ToString[Zero] {
+  //   def apply() = "0"
+  // }
+
+  implicit def toStringSucc[N <:Expr](implicit toInt: ToInt[N]):ToString[N] = new ToString[N] {
+    def apply() = ToInt[N].toString
   }
 
   trait ToInt[E <: Expr] {
