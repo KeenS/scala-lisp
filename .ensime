@@ -1,22 +1,22 @@
 (
- :root-dir "/Users/a13987/Scala/scala-lisp"
- :cache-dir "/Users/a13987/Scala/scala-lisp/.ensime_cache"
+ :root-dir "/home/kim/Scala/scala-lisp"
+ :cache-dir "/home/kim/Scala/scala-lisp/.ensime_cache"
  :name "scala-lisp"
- :java-home "/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home"
- :java-flags ("-Xss2m" "-Xms1024m" "-Xmx1024m" "-XX:ReservedCodeCacheSize=128m" "-XX:MaxPermSize=256m")
- :reference-source-roots ("/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/src.zip")
- :scala-version "2.11.7"
+ :java-home "/usr/lib/jvm/java-8-oracle"
+ :java-flags ("-Xms512M" "-Xmx1536M" "-Xss2m" "-XX:+CMSClassUnloadingEnabled")
+ :reference-source-roots ("/usr/lib/jvm/java-8-oracle/src.zip")
+ :scala-version "2.11.6"
  :compiler-args ("-feature" "-deprecation" "-Xlint" "-Yinline-warnings" "-Yno-adapted-args" "-Ywarn-dead-code" "-Ywarn-numeric-widen" "-Xfuture" "-Ywarn-unused-import")
  
  :subprojects ((
    :name "scala-lisp"
-   :source-roots ("/Users/a13987/Scala/scala-lisp/src/main/scala")
-   :targets ("/Users/a13987/Scala/scala-lisp/target/scala-2.11/classes")
-   :test-targets ("/Users/a13987/Scala/scala-lisp/target/scala-2.11/test-classes")
+   :source-roots ("/home/kim/Scala/scala-lisp/src/main/scala")
+   :targets ("/home/kim/Scala/scala-lisp/target/scala-2.11/classes")
+   :test-targets ("/home/kim/Scala/scala-lisp/target/scala-2.11/test-classes")
    :depends-on-modules nil
-   :compile-deps ("/Users/a13987/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.7.jar")
+   :compile-deps ("/home/kim/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.6.jar")
    :runtime-deps nil
    :test-deps nil
-   :doc-jars ("/Users/a13987/.ivy2/cache/org.scala-lang/scala-library/docs/scala-library-2.11.7-javadoc.jar" "/Users/a13987/Scala/scala-lisp/target/scala-2.11/hello_2.11-1.0-javadoc.jar")
-   :reference-source-roots ("/Users/a13987/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.11.7-sources.jar")))
+   :doc-jars ("/home/kim/.ivy2/cache/org.scala-lang/scala-library/docs/scala-library-2.11.6-javadoc.jar" "/home/kim/Scala/scala-lisp/target/scala-2.11/hello_2.11-1.0-javadoc.jar")
+   :reference-source-roots ("/home/kim/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.11.6-sources.jar")))
 )
