@@ -21,8 +21,6 @@ trait EvalLowerPriority{
 }
 
 object Eval extends EvalLowerPriority {
-  def apply[E <: Expr](implicit eval: Eval[E]): Eval[E]{type Out = eval.Out} = eval
-
   implicit def zero: Eval[Zero] {type Out = Zero} = new Eval[Zero] {type Out = Zero}
   implicit def succ[E <: Expr]: Eval[Succ[E]] {type Out = Succ[E]} = new Eval[Succ[E]] {type Out = Succ[E]}
   implicit def nil: Eval[Nil] {type Out = Nil} = new Eval[Nil] {type Out = Nil}
