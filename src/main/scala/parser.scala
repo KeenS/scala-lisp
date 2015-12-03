@@ -11,7 +11,7 @@ object Parser extends JavaTokenParsers {
   lazy val lnil = "nil" ^^ {_ => Ast.LNil()}
   lazy val lint = """\d+""".r ^^ {
     n => Ast.LInt(n.toInt)}
-  lazy val lsymbol = "[^ \n\t()'0-9]".r.+ ^^ {
+  lazy val lsymbol = """[^\s()'0-9]+""".r ^^ {
     s => Ast.LSymbol(s.mkString)
   }
 
