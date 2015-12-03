@@ -8,6 +8,9 @@ trait Eval[E <: Expr] {
 object Eval {
   def apply[E <: Expr](implicit eval: Eval[E]): Aux[E, eval.Out] = eval
   type Aux[E <:Expr, O <: Expr] = Eval[E]{type Out = O}
+  type List1[E<:Expr] = ConsCell[E, Nil]
+  type List2[E1<:Expr, E2<:Expr] = ConsCell[E1, List1[E2]]
+  type List3[E1<:Expr, E2<:Expr, E3<:Expr] = ConsCell[E1, List2[E2, E3]]
 
   implicit def zero: Aux[Zero, Zero] = new Eval[Zero] {
     type Out = Zero
@@ -26,8 +29,8 @@ object Eval {
     type Out = Symbol[S]
   }
 
-  implicit def quote[E <: Expr]: Aux[ConsCell[Symbol[SQuote], ConsCell[E, Nil]], E] =
-    new Eval[ConsCell[Symbol[SQuote], ConsCell[E, Nil]]] {
+  implicit def quote[E <: Expr]: Aux[List2[Symbol[SQuote], E], E] =
+    new Eval[List2[Symbol[SQuote], E]] {
       type Out = E
     }
 
@@ -35,8 +38,8 @@ object Eval {
     (implicit
       e : Eval[E]{type Out = EOut},
       car : Car[EOut]{type Out = CarOut})
-      : Aux[ConsCell[Symbol[SCar], ConsCell[E, Nil]], CarOut] =
-    new Eval[ConsCell[Symbol[SCar], ConsCell[E, Nil]]] {
+      : Aux[List2[Symbol[SCar], E], CarOut] =
+    new Eval[List2[Symbol[SCar], E]] {
     type Out = CarOut
   }
 
@@ -44,8 +47,8 @@ object Eval {
     (implicit
       e : Eval[E]{type Out = EOut},
       cdr : Cdr[EOut]{type Out = CdrOut})
-      : Aux[ConsCell[Symbol[SCdr], ConsCell[E, Nil]], CdrOut] =
-    new Eval[ConsCell[Symbol[SCdr], ConsCell[E, Nil]]] {
+      : Aux[List2[Symbol[SCdr],E], CdrOut] =
+    new Eval[List2[Symbol[SCdr], E]] {
     type Out = CdrOut
   }
 
@@ -54,8 +57,8 @@ object Eval {
       l1 : Eval[L1]{type Out = L1Out},
       l2 : Eval[L2]{type Out = L2Out},
       cons : Cons[L1Out, L2Out]{type Out = ConsOut})
-      : Aux[ConsCell[Symbol[SCons], ConsCell[L1, ConsCell[L2, Nil]]], ConsOut] =
-    new Eval[ConsCell[Symbol[SCons], ConsCell[L1, ConsCell[L2, Nil]]]] {
+      : Aux[List3[Symbol[SCons], L1, L2], ConsOut] =
+    new Eval[List3[Symbol[SCons], L1, L2]] {
     type Out = ConsOut
   }
 
@@ -65,8 +68,8 @@ object Eval {
       l1 : Eval[L1]{type Out = L1Out},
       l2 : Eval[L2]{type Out = L2Out},
       append : Append[L1Out, L2Out]{type Out = AppendOut})
-      : Aux[ConsCell[Symbol[SAppend], ConsCell[L1, ConsCell[L2, Nil]]], AppendOut] =
-    new Eval[ConsCell[Symbol[SAppend], ConsCell[L1, ConsCell[L2, Nil]]]] {
+      : Aux[List3[Symbol[SAppend], L1, L2], AppendOut] =
+    new Eval[List3[Symbol[SAppend], L1, L2]] {
     type Out = AppendOut
   }
 
@@ -76,8 +79,8 @@ object Eval {
       l1 : Eval[L1]{type Out = L1Out},
       l2 : Eval[L2]{type Out = L2Out},
       plus : Plus[L1Out, L2Out]{type Out = PlusOut})
-      : Aux[ConsCell[Symbol[SPlus], ConsCell[L1, ConsCell[L2, Nil]]], PlusOut] =
-    new Eval[ConsCell[Symbol[SPlus], ConsCell[L1, ConsCell[L2, Nil]]]] {
+      : Aux[List3[Symbol[SPlus], L1, L2], PlusOut] =
+    new Eval[List3[Symbol[SPlus], L1, L2]] {
     type Out = PlusOut
   }
 
@@ -87,8 +90,8 @@ object Eval {
       l1 : Eval[L1]{type Out = L1Out},
       l2 : Eval[L2]{type Out = L2Out},
       minus : Minus[L1Out, L2Out]{type Out = MinusOut})
-      : Aux[ConsCell[Symbol[SMinus], ConsCell[L1, ConsCell[L2, Nil]]], MinusOut] =
-    new Eval[ConsCell[Symbol[SMinus], ConsCell[L1, ConsCell[L2, Nil]]]] {
+      : Aux[List3[Symbol[SMinus], L1, L2], MinusOut] =
+    new Eval[List3[Symbol[SMinus], L1, L2]] {
     type Out = MinusOut
   }
 
@@ -98,8 +101,8 @@ object Eval {
       l1 : Eval[L1]{type Out = L1Out},
       l2 : Eval[L2]{type Out = L2Out},
       mult : Mult[L1Out, L2Out]{type Out = MultOut})
-      : Aux[ConsCell[Symbol[SMult], ConsCell[L1, ConsCell[L2, Nil]]], MultOut] =
-    new Eval[ConsCell[Symbol[SMult], ConsCell[L1, ConsCell[L2, Nil]]]] {
+      : Aux[List3[Symbol[SMult], L1, L2], MultOut] =
+    new Eval[List3[Symbol[SMult], L1, L2]] {
     type Out = MultOut
   }
 
