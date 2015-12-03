@@ -10,7 +10,7 @@ object Macro {
     val Literal(Constant(s_expr: String)) = expr.tree
     val ast = Parser.parseAll(Parser.expr, s_expr).get
     val t = toT(c)(ast)
-    q"Expr.ToString[$t]"
+    q"Eval.EvalToString[$t]"
   }
 
   def toT(c: Context)(e: Ast.Ast): c.Tree = {

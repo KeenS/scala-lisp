@@ -62,5 +62,19 @@ object Eval {
   }
 
 
+  trait EvalToString[E <: Expr] {
+    def apply(): String
+  }
 
+  object EvalToString {
+    def apply[E <: Expr](
+      implicit evalToString: EvalToString[E]): String = evalToString()
+  }
+  implicit def evalToString[E <:Expr, EvalOut <: Expr](
+    implicit eval : Eval[E]{ type Out = EvalOut},
+    toString_ : Expr.ToString[EvalOut]): EvalToString[E] = new EvalToString[E]{
+    def apply() = toString_()
+  }
 }
+
+
