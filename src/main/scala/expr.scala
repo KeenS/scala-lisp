@@ -4,7 +4,6 @@ sealed trait Expr
 sealed trait ConsCell[+H <: Expr, +T <: Expr] extends Expr
 sealed trait Nil extends Expr
 sealed trait T_ extends Expr
-sealed trait Bool extends Expr
 sealed trait Zero extends Expr
 sealed trait Succ[N <: Expr] extends Expr
 sealed trait Symbol[S <: Sym] extends Expr
