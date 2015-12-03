@@ -21,7 +21,14 @@ object Macro {
       case LCons(car, cdr) => tq"ConsCell[${toT(c)(car)},${toT(c)(cdr)}]"
       case LInt(0) => tq"Zero"
       case LInt(i) => tq"Succ[${toT(c)(LInt(i-1))}]"
-      case LSymbol(_) => tq"Zero"
+      case LSymbol("car") => tq"Symbol[SCar]"
+      case LSymbol("cdr") => tq"Symbol[SCdr]"
+      case LSymbol("cons") => tq"Symbol[SCons]"
+      case LSymbol("append") => tq"Symbol[SAppend]"
+      case LSymbol("+") => tq"Symbol[SAdd]"
+      case LSymbol("-") => tq"Symbol[SSub]"
+      //TODO handle error
+      case LSymbol(_) => tq"Nil"
     }
   }
 
