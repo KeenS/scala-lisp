@@ -21,9 +21,7 @@ sealed trait SQuote extends Sym
 sealed trait SIf extends Sym
 
 object Expr {
-  trait ToString[E <: Expr] {
-    def apply(): String
-  }
+  trait ToString[E <: Expr] {def apply(): String}
   object ToString {
     def apply[E <: Expr](implicit toString :ToString[E]): String = toString()
   }
@@ -38,9 +36,7 @@ object Expr {
     def apply() = s"(${ToStringList[E]}"
   }
 
-  trait ToStringList[E <: Expr] {
-    def apply(): String
-  }
+  trait ToStringList[E <: Expr] {def apply(): String}
   object ToStringList {
     def apply[E<:Expr](implicit toStringList: ToStringList[E]):String = toStringList()
   }
@@ -70,9 +66,7 @@ object Expr {
     def apply() = ToInt[N].toString
   }
 
-  trait ToInt[E <: Expr] {
-    def apply(): Int
-  }
+  trait ToInt[E <: Expr] {def apply(): Int}
   object ToInt {
     def apply[E <: Expr](implicit toInt: ToInt[E]): Int = toInt()
   }
@@ -90,9 +84,7 @@ object Expr {
     def apply() = toStringSym()
   }
 
-  trait ToStringSymbol[E <: Expr] {
-    def apply(): String
-  }
+  trait ToStringSymbol[E <: Expr] {def apply(): String}
 
   object ToStringSymbol {
     def apply[E <: Expr](implicit toStringSymbol: ToStringSymbol[E]) = toStringSymbol()
