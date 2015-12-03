@@ -16,6 +16,7 @@ sealed trait SAppend extends Sym
 sealed trait SPlus extends Sym
 sealed trait SMinus extends Sym
 sealed trait SMult extends Sym
+sealed trait SEval extends Sym
 sealed trait SQuote extends Sym
 sealed trait SIf extends Sym
 
@@ -55,11 +56,6 @@ object Expr {
     toStringCdr: ToString[E2]): ToStringList[ConsCell[E1, E2]] = new ToStringList[ConsCell[E1, E2]]{
     def apply() = s"${toStringCar()} . ${toStringCdr()})"
   }
-
-
-  // implicit def toString0 = new ToString[Zero] {
-  //   def apply() = "0"
-  // }
 
   implicit def toStringSucc[N <:Expr](implicit toInt: ToInt[N]):ToString[N] = new ToString[N] {
     def apply() = ToInt[N].toString
@@ -114,8 +110,12 @@ object Expr {
   }
 
   implicit def toStringMult: ToStringSymbol[Symbol[SMult]] = new ToStringSymbol[Symbol[SMult]] {
-    def apply() = "-"
+    def apply() = "*"
   }
+  implicit def toStringEval: ToStringSymbol[Symbol[SEval]] = new ToStringSymbol[Symbol[SEval]] {
+    def apply() = "eval"
+  }
+
 
   implicit def toStringQuote: ToStringSymbol[Symbol[SQuote]] = new ToStringSymbol[Symbol[SQuote]] {
     def apply() = "quote"

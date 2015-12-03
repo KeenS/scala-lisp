@@ -29,6 +29,7 @@ object Lisp {
       case LSymbol("+") => tq"Symbol[SPlus]"
       case LSymbol("-") => tq"Symbol[SMinus]"
       case LSymbol("*") => tq"Symbol[SMult]"
+      case LSymbol("eval") => tq"Symbol[SEval]"
       case LSymbol("quote") => tq"Symbol[SQuote]"
       case LSymbol("if") => tq"Symbol[SIf]"
       //TODO handle error

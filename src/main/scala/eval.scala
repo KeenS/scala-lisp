@@ -98,6 +98,12 @@ object Eval extends EvalLowerPriority {
     new Eval[List3[Symbol[SMult], L1, L2]] {type Out = MultOut}
 
 
+  implicit def eval[E <: Expr, EOut <: Expr,  EvalOut <: Expr]
+    (implicit
+      e : Eval[E]{type Out = EOut},
+      eval_ : Eval[EOut]{type Out = EvalOut}
+    ) : Eval[List2[Symbol[SEval], E]] {type Out = EvalOut} =
+    new Eval[List2[Symbol[SEval], E]] {type Out = EvalOut}
 
 
 
