@@ -8,6 +8,15 @@ sealed trait True extends Expr
 sealed trait False extends Expr
 sealed trait Zero extends Expr
 sealed trait Succ[N <: Expr] extends Expr
+sealed trait Symbol[S <: Sym] extends Expr
+
+sealed trait Sym
+sealed trait SCar extends Sym
+sealed trait SCdr extends Sym
+sealed trait SCons extends Sym
+sealed trait SAppend extends Sym
+sealed trait SAdd extends Sym
+sealed trait SSub extends Sym
 
 object Expr {
   trait ToString[E <: Expr] {
@@ -71,4 +80,44 @@ object Expr {
   implicit def toIntSucc[N <: Expr](implicit toInt: ToInt[N]):ToInt[Succ[N]] = new ToInt[Succ[N]] {
     def apply() = 1 + toInt()
   }
+
+  implicit def toStringSym[E <: Expr](implicit toStringSym: ToStringSymbol[E]): ToString[E] = new ToString[E] {
+    def apply() = toStringSym()
+  }
+
+  trait ToStringSymbol[E <: Expr] {
+    def apply(): String
+  }
+
+  object ToStringSymbol {
+    def apply[E <: Expr](implicit toStringSymbol: ToStringSymbol[E]) = toStringSymbol()
+  }
+
+  implicit def toStringCar: ToStringSymbol[Symbol[SCar]] = new ToStringSymbol[Symbol[SCar]] {
+    def apply() = "car"
+  }
+
+  implicit def toStringCdr: ToStringSymbol[Symbol[SCdr]] = new ToStringSymbol[Symbol[SCdr]] {
+    def apply() = "cdr"
+  }
+
+  implicit def toStringCons: ToStringSymbol[Symbol[SCons]] = new ToStringSymbol[Symbol[SCons]] {
+    def apply() = "cons"
+  }
+
+  implicit def toStringAppend: ToStringSymbol[Symbol[SAppend]] = new ToStringSymbol[Symbol[SAppend]] {
+    def apply() = "append"
+  }
+
+    implicit def toStringAdd: ToStringSymbol[Symbol[SAdd]] = new ToStringSymbol[Symbol[SAdd]] {
+    def apply() = "+"
+  }
+
+  implicit def toStringSub: ToStringSymbol[Symbol[SSub]] = new ToStringSymbol[Symbol[SSub]] {
+    def apply() = "-"
+  }
+
+
+
+
 }
