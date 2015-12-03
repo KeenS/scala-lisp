@@ -18,6 +18,7 @@ object Macro {
     import Ast._
     e match {
       case LNil() => tq"Nil"
+      case LT() => tq"T_"
       case LCons(car, cdr) => tq"ConsCell[${toT(c)(car)},${toT(c)(cdr)}]"
       case LInt(0) => tq"Zero"
       case LInt(i) => tq"Succ[${toT(c)(LInt(i-1))}]"

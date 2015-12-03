@@ -3,9 +3,8 @@ package scalalisp
 sealed trait Expr
 sealed trait ConsCell[+H <: Expr, +T <: Expr] extends Expr
 sealed trait Nil extends Expr
+sealed trait T_ extends Expr
 sealed trait Bool extends Expr
-sealed trait True extends Expr
-sealed trait False extends Expr
 sealed trait Zero extends Expr
 sealed trait Succ[N <: Expr] extends Expr
 sealed trait Symbol[S <: Sym] extends Expr
@@ -30,6 +29,9 @@ object Expr {
   }
   implicit def toStringNil = new ToString[Nil]{
     def apply() = "()"
+  }
+  implicit def toStringT_ = new ToString[T_]{
+    def apply() = "t"
   }
 
   implicit def toStringList[E<:Expr](implicit toStringList : ToStringList[E]): ToString[E] = new ToString[E] {

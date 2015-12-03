@@ -37,6 +37,9 @@ object Eval extends EvalLowerPriority {
   implicit def nil: Aux[Nil, Nil] = new Eval[Nil] {
     type Out = Nil
   }
+  implicit def t: Aux[T_, T_] = new Eval[T_] {
+    type Out = T_
+  }
 
   //TODO evaluate to bound value
   implicit def symbol[S <: Sym]: Aux[Symbol[S], Symbol[S]] = new Eval[Symbol[S]] {
