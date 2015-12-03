@@ -20,10 +20,33 @@ object Expr {
     def apply() = "()"
   }
 
-  implicit def toStringCons[Car<:Expr, Cdr<:Expr](implicit toStringCar : ToString[Car],
-    toStringCdr : ToString[Cdr]) = new ToString[ConsCell[Car,Cdr]] {
-    def apply() = s"( ${ToString[Car]} . ${ToString[Cdr]} )"
+  implicit def toStringList[E<:Expr](implicit toStringList : ToStringList[E]): ToString[E] = new ToString[E] {
+    def apply() = s"(${ToStringList[E]}"
   }
+
+  trait ToStringList[E <: Expr] {
+    def apply(): String
+  }
+  object ToStringList {
+    def apply[E<:Expr](implicit toStringList: ToStringList[E]):String = toStringList()
+  }
+
+  implicit def toStringList1[E<:Expr](implicit toString1: ToString[E])
+      :ToStringList[ConsCell[E, Nil]] = new ToStringList[ConsCell[E, Nil]] {
+    def apply() = s"${toString1()})"
+  }
+
+  implicit def toStringListN[E<:Expr, E1 <: Expr, E2 <: Expr ](implicit toString1: ToString[E], toStringList: ToStringList[ConsCell[E1, E2]])
+      :ToStringList[ConsCell[E, ConsCell[E1, E2]]] = new ToStringList[ConsCell[E, ConsCell[E1, E2]]] {
+    def apply() = s"${toString1()} ${toStringList()}"
+  }
+
+  implicit def toStringListCons[E1 <: Expr, E2 <: Expr ](
+    implicit toStringCar: ToString[E1],
+    toStringCdr: ToString[E2]): ToStringList[ConsCell[E1, E2]] = new ToStringList[ConsCell[E1, E2]]{
+    def apply() = s"${toStringCar()} . ${toStringCdr()})"
+  }
+
 
   // implicit def toString0 = new ToString[Zero] {
   //   def apply() = "0"
