@@ -3,9 +3,9 @@ package scalalisp
 import scala.reflect.macros.blackbox.Context
 import scala.language.experimental.macros
 
-object Macro {
-  def lisp(expr: String): String = macro lisp_impl
-  def lisp_impl(c: Context)(expr: c.Expr[String]): c.Tree = {
+object Lisp {
+  def run(expr: String): String = macro run_impl
+  def run_impl(c: Context)(expr: c.Expr[String]): c.Tree = {
     import c.universe._
     val Literal(Constant(s_expr: String)) = expr.tree
     val ast = Parser.parseAll(Parser.expr, s_expr).get
