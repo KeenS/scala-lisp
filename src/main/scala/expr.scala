@@ -33,7 +33,7 @@ object Expr {
   }
 
   implicit def toStringList[E<:Expr](implicit toStringList : ToStringList[E]): ToString[E] = new ToString[E] {
-    def apply() = s"(${ToStringList[E]}"
+    def apply() = s"(${toStringList()}"
   }
 
   trait ToStringList[E <: Expr] {def apply(): String}
