@@ -45,10 +45,8 @@ object Minus {
 object Mult {
   implicit def zero[N <: Expr]: Mult[N, Zero] { type Out = Zero } =
     new Mult[N, Zero] {type Out = Zero}
-  implicit def one[N <: Expr]: Mult[N, Succ[Zero]] { type Out = N } =
-    new Mult[N, Succ[Zero]] {type Out = N}
-  implicit def succ[N <: Expr, M <: Expr, R <: Expr](implicit mult: Mult[N, Succ[M]] { type Out = R }, plus: Plus[N, R]): Mult[N, Succ[Succ[M]]] { type Out = plus.Out } =
-    new Mult[N, Succ[Succ[M]]] {type Out = plus.Out}
+  implicit def succ[N <: Expr, M <: Expr, R <: Expr](implicit mult: Mult[N, M] { type Out = R }, plus: Plus[N, R]): Mult[N, Succ[M]] { type Out = plus.Out } =
+    new Mult[N, Succ[M]] {type Out = plus.Out}
 }
 
 
