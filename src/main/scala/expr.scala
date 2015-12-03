@@ -17,6 +17,7 @@ sealed trait SCons extends Sym
 sealed trait SAppend extends Sym
 sealed trait SAdd extends Sym
 sealed trait SSub extends Sym
+sealed trait SQuote extends Sym
 
 object Expr {
   trait ToString[E <: Expr] {
@@ -115,6 +116,10 @@ object Expr {
 
   implicit def toStringSub: ToStringSymbol[Symbol[SSub]] = new ToStringSymbol[Symbol[SSub]] {
     def apply() = "-"
+  }
+
+  implicit def toStringQuote: ToStringSymbol[Symbol[SQuote]] = new ToStringSymbol[Symbol[SQuote]] {
+    def apply() = "quote"
   }
 
 

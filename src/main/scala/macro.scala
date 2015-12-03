@@ -27,6 +27,7 @@ object Macro {
       case LSymbol("append") => tq"Symbol[SAppend]"
       case LSymbol("+") => tq"Symbol[SAdd]"
       case LSymbol("-") => tq"Symbol[SSub]"
+      case LSymbol("quote") => tq"Symbol[SQuote]"
       //TODO handle error
       case LSymbol(_) => tq"Nil"
     }

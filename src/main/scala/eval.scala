@@ -26,6 +26,11 @@ object Eval {
     type Out = Symbol[S]
   }
 
+  implicit def quote[E <: Expr]: Aux[ConsCell[Symbol[SQuote], ConsCell[E, Nil]], E] =
+    new Eval[ConsCell[Symbol[SQuote], ConsCell[E, Nil]]] {
+      type Out = E
+    }
+
   implicit def car[H <: Expr, T <: Expr, HOut <: Expr, TOut<: Expr, CarOut <: Expr]
     (implicit
       h : Eval[H]{type Out = HOut},
