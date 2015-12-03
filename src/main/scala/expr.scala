@@ -15,9 +15,11 @@ sealed trait SCar extends Sym
 sealed trait SCdr extends Sym
 sealed trait SCons extends Sym
 sealed trait SAppend extends Sym
-sealed trait SAdd extends Sym
-sealed trait SSub extends Sym
+sealed trait SPlus extends Sym
+sealed trait SMinus extends Sym
+sealed trait SMult extends Sym
 sealed trait SQuote extends Sym
+sealed trait SIf extends Sym
 
 object Expr {
   trait ToString[E <: Expr] {
@@ -110,16 +112,24 @@ object Expr {
     def apply() = "append"
   }
 
-    implicit def toStringAdd: ToStringSymbol[Symbol[SAdd]] = new ToStringSymbol[Symbol[SAdd]] {
+    implicit def toStringPlus: ToStringSymbol[Symbol[SPlus]] = new ToStringSymbol[Symbol[SPlus]] {
     def apply() = "+"
   }
 
-  implicit def toStringSub: ToStringSymbol[Symbol[SSub]] = new ToStringSymbol[Symbol[SSub]] {
+  implicit def toStringMinus: ToStringSymbol[Symbol[SMinus]] = new ToStringSymbol[Symbol[SMinus]] {
+    def apply() = "-"
+  }
+
+  implicit def toStringMult: ToStringSymbol[Symbol[SMult]] = new ToStringSymbol[Symbol[SMult]] {
     def apply() = "-"
   }
 
   implicit def toStringQuote: ToStringSymbol[Symbol[SQuote]] = new ToStringSymbol[Symbol[SQuote]] {
     def apply() = "quote"
+  }
+
+  implicit def toStringIf: ToStringSymbol[Symbol[SIf]] = new ToStringSymbol[Symbol[SIf]] {
+    def apply() = "if"
   }
 
 

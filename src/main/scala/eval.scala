@@ -1,16 +1,30 @@
 package scalalisp
 
 
+
 trait Eval[E <: Expr] {
   type Out <: Expr
 }
 
-object Eval {
-  def apply[E <: Expr](implicit eval: Eval[E]): Aux[E, eval.Out] = eval
+trait EvalLowerPriority{ 
   type Aux[E <:Expr, O <: Expr] = Eval[E]{type Out = O}
   type List1[E<:Expr] = ConsCell[E, Nil]
   type List2[E1<:Expr, E2<:Expr] = ConsCell[E1, List1[E2]]
   type List3[E1<:Expr, E2<:Expr, E3<:Expr] = ConsCell[E1, List2[E2, E3]]
+  type List4[E1<:Expr, E2<:Expr, E3<:Expr, E4 <: Expr] = ConsCell[E1, List3[E2, E3, E4]]
+  implicit def ifT[Cond <: Expr, CondOut <:Expr, Then <: Expr, ThenOut <:Expr, Else <: Expr]
+    (implicit
+      cond : Eval[Cond]{type Out = CondOut},
+      then_ : Eval[Then]{type Out = ThenOut})
+      : Aux[List4[Symbol[SIf], Cond, Then, Else], ThenOut] =
+    new Eval[List4[Symbol[SIf], Cond, Then, Else]] {
+    type Out =  ThenOut
+  }
+
+}
+
+object Eval extends EvalLowerPriority {
+  def apply[E <: Expr](implicit eval: Eval[E]): Aux[E, eval.Out] = eval
 
   implicit def zero: Aux[Zero, Zero] = new Eval[Zero] {
     type Out = Zero
@@ -33,6 +47,15 @@ object Eval {
     new Eval[List2[Symbol[SQuote], E]] {
       type Out = E
     }
+
+  implicit def ifNil[Cond <: Expr, Then <: Expr, Else <: Expr, ElseOut <:Expr]
+    (implicit
+      cond : Eval[Cond]{type Out = Nil},
+      else_ : Eval[Else]{type Out = ElseOut})
+      : Aux[List4[Symbol[SIf], Cond, Then, Else], ElseOut] =
+    new Eval[List4[Symbol[SIf], Cond, Then, Else]] {
+    type Out = ElseOut
+  }
 
   implicit def car[E <: Expr, EOut <: Expr,  CarOut <: Expr]
     (implicit
